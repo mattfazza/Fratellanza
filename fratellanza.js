@@ -2,6 +2,9 @@ var request = require("request");
 const bodyParser = require('body-parser');
 
 var token;
+var dateObj = new Date()
+today = dateObj.toISOString().slice(0, 10);
+
 
 //EN: the urls below are the real URL, for purposes of testing, I'm using the mock API url
 //PT: os endereços abaixo são os endereços reais, só que pra testar, eu estou usando a API de mentira
@@ -40,7 +43,8 @@ function getOrderIds() {
     var options = {
         method: 'GET',
         //url: 'https://pos-api.ifood.com.br/v1.0/events%3ACONCLUDED'
-        url: 'http://localhost:5000/api/events:CONCLUDED'
+        url: 'http://localhost:5000/api/events:CONCLUDED',
+        bearer: token
     };
 
     return new Promise(function (resolve, reject) {
@@ -55,6 +59,31 @@ function getOrderIds() {
     })
 
 }
+
+function getMoney(ref) {
+
+    var options = {
+        method: 'GET',
+        //url: 'https://pos-api.ifood.com.br/v1.0/events%3ACONCLUDED'
+        url: 'https://pos-api.ifood.com.br/v1.0/orders/' + ref,
+        bearer: token
+    };
+
+    console.log(options.url);
+
+    return new Promise(function (resolve, reject) {
+
+        request.get(options, function (err, resp, body) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(body);
+            }
+        })
+    })
+
+}
+
 
 //EN: the first line inside is only necessary when testing with the mock server since we use bodyParse there
 //PT: a primeira linha dentro da função só é necessária quando se está testando com o servidor falso, já que usamos bodyParse por lá
@@ -84,10 +113,24 @@ getOrderIds().then(function (result) {
     //res = result;
 
     for (var i = 0; i < res.length; i++) {
-        ids.push(res[i].id)
+        if (res[i].createdAt.startsWith(today)) {
+            ids.push(res[i].id);
+        } else {
+            //EN: we can break here because the data comes in sequential form
+            //PT: não há problema em sair do loop aqui porque os dados vêm de forma sequencial
+            break;
+        }
     }
+
+    console.log(ids);
+
 
 }, function (err) {
     console.log("failed to retrieve orders");
     console.log(err);
 });
+
+
+for (var j = 0; j < ids.length; j++) {
+    //call api to retrieve price
+}
