@@ -1,0 +1,23 @@
+{
+  "name": "fratellanza",
+  "version": "1.0.0",
+  "description": "application for Pizzaria Fratellanza",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently --kill-others \"npm fratellanza.js\" \"json-server db.json\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattfazza/Fratellanza.git"
+  },
+  "author": "Matt Fazza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattfazza/Fratellanza/issues"
+  },
+  "homepage": "https://github.com/mattfazza/Fratellanza#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
