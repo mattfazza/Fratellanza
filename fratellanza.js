@@ -2,6 +2,7 @@ var request = require("request");
 const bodyParser = require('body-parser');
 
 var token;
+var ids = [];
 var dateObj = new Date()
 today = dateObj.toISOString().slice(0, 10);
 
@@ -64,12 +65,10 @@ function getMoney(ref) {
 
     var options = {
         method: 'GET',
-        //url: 'https://pos-api.ifood.com.br/v1.0/events%3ACONCLUDED'
-        url: 'https://pos-api.ifood.com.br/v1.0/orders/' + ref,
+        //url: 'https://pos-api.ifood.com.br/v1.0/orders/' + ref'
+        url: 'http://localhost:5000/api/orders/' + ref,
         bearer: token
     };
-
-    console.log(options.url);
 
     return new Promise(function (resolve, reject) {
 
@@ -106,7 +105,7 @@ getToken().then(function (result) {
 
 
 
-var ids = [];
+
 getOrderIds().then(function (result) {
 
     let res = JSON.parse(result);
@@ -122,8 +121,7 @@ getOrderIds().then(function (result) {
         }
     }
 
-    console.log(ids);
-
+    //console.log(ids);
 
 }, function (err) {
     console.log("failed to retrieve orders");
@@ -131,6 +129,26 @@ getOrderIds().then(function (result) {
 });
 
 
-for (var j = 0; j < ids.length; j++) {
-    //call api to retrieve price
+var totalSales = 0;
+function collection() {
+    for (var j = 0; j < ids.length; j++) {
+        getMoney(ids[j]).then(function (result) {
+
+            let res = JSON.parse(result);
+            //res = result;
+
+            totalSales += res.totalPrice;
+            //console.log(totalSales);
+
+        }, function (err) {
+            console.log("failed to retrieve orders");
+            console.log(err);
+        });
+    }
 }
+
+setTimeout(() => collection(), 3000);
+setTimeout(() => { console.log("Total number of sales on " + today + ": " + totalSales) }, 60000);
+setTimeout(() => { console.log("Quantidade total de vendas hoje " + today + ": " + totalSales) }, 60000);
+
+//Heroku sends the output as an email

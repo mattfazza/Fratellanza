@@ -1,6 +1,7 @@
 const express = require("express");
 const mockToken = require("./data/token.json");
 const mockEvents = require("./data/eventspolling.json")
+const mockOrders = require("./data/ordersdetail.json")
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -34,8 +35,20 @@ app.get('/api/events:polling', (req, res) => {
     );
 });
 
+app.get('/api/orders/:reference', (req, res) => {
+
+    let orderRef = req.params.reference;
+
+    res.status(200).send({
+        id: req.params.reference,
+        totalPrice: mockOrders[req.params.reference].totalPrice
+    }
+    );
+});
+
 const PORT = 5000;
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)
 });
+
