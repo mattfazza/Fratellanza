@@ -1,7 +1,10 @@
 const express = require("express");
 const mockData = require("./db.json");
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/api/all', (req, res) => {
     res.status(200).send({
@@ -13,12 +16,17 @@ app.get('/api/all', (req, res) => {
 
 
 app.post('/api/token', (req, res) => {
-    res.status(200).send({
-        access_token: mockData.token.access_token,
-        token_type: mockData.token.token_type,
-        expires_in: mockData.token.expires_in,
-        scope: mockData.token.scope
-    })
+
+    if ((req).query.client_secret != 123456) {
+        res.status(401).send({ error: "Unauthorized" })
+    } else {
+        res.status(200).send({
+            access_token: mockData.token.access_token,
+            token_type: mockData.token.token_type,
+            expires_in: mockData.token.expires_in,
+            scope: mockData.token.scope
+        })
+    }
 });
 
 const PORT = 5000;
