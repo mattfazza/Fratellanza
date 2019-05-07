@@ -1,5 +1,4 @@
-**Fratellanza** 
-Fratellanza is a simple application written with node.js and express to collect all the sales from my dad's pizza place's POS at the end of the day.  Despite its simplicity, this saves my dad about 2-3 hours every day.
+**Fratellanza** is a simple application written with node.js and express to collect all the sales from my dad's pizza place's POS at the end of the day.  Despite its simplicity, this saves my dad about 2-3 hours every day.
 
 I wrote this application last year, and hosted it on Heroku.  However, I never showed it to anyone simply because it exposed a lot of the inner workings of his business.  I decided to make a slightly modified version that didn't have that flaw.  This is it.  
 
