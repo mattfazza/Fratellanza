@@ -1,0 +1,14 @@
+[
+    {
+        "code": "CONCLUDED",
+        "correlationId": "1234567890012",
+        "createdAt": "2017-05-02T16:01:16.567Z",
+        "id": "abc-456-afge-451-n15484"
+    },
+    {
+        "code": "CONCLUDED",
+        "correlationId": "9876543210123",
+        "createdAt": "2017-05-02T16:01:16.567Z",
+        "id": "kfg-234-34fg-3523-jkf1515"
+    }
+]

@@ -1,5 +1,6 @@
 const express = require("express");
-const mockData = require("./db.json");
+const mockToken = require("./data/token.json");
+const mockEvents = require("./data/eventspolling.json")
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -10,7 +11,7 @@ app.get('/api/all', (req, res) => {
     res.status(200).send({
         success: 'true',
         message: 'retrieved all testing data successfully',
-        data: mockData
+        data: mockToken
     })
 });
 
@@ -20,19 +21,20 @@ app.post('/api/token', (req, res) => {
     if ((req).query.client_secret != 123456) {
         res.status(401).send({ error: "Unauthorized" })
     } else {
-        res.status(200).send({
-            access_token: mockData.token.access_token,
-            token_type: mockData.token.token_type,
-            expires_in: mockData.token.expires_in,
-            scope: mockData.token.scope
-        })
+        res.status(200).send(
+            mockToken
+        )
     }
 });
 
+app.get('/api/events:polling', (req, res) => {
+
+    res.status(200).send(
+        mockEvents
+    );
+});
+
 const PORT = 5000;
-
-console.log(mockData.access_token);
-
 
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)
